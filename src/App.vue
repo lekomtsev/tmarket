@@ -24,19 +24,19 @@
 
     <v-app-bar app dark color="primary">
       <v-app-bar-nav-icon
+        class="hidden-md-and-up"
         @click="toggleSidebar = !toggleSidebar"
       ></v-app-bar-nav-icon>
       <v-toolbar-title>Blogger</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-
         <v-btn
           text
           v-for="(sideBarLink, index) in sideBarLinks"
           :key="index"
           :to="sideBarLink.url"
         >
-          <v-icon right>{{ sideBarLink.icon }}</v-icon>
+          <v-icon left>{{ sideBarLink.icon }}</v-icon>
           {{ sideBarLink.title }}
         </v-btn>
 
@@ -51,7 +51,6 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld';
-// import RouterView from './components/HelloWorld';
 
 export default {
   name: 'App',
