@@ -20,58 +20,51 @@
                                 dark
                                 flat
                             >
-                                <v-toolbar-title>Login form</v-toolbar-title>
-                                <v-spacer/>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn
-                                            :href="source"
-                                            icon
-                                            large
-                                            target="_blank"
-                                            v-on="on"
-                                        >
-                                            <v-icon>mdi-code-tags</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>Source</span>
-                                </v-tooltip>
-                                <v-tooltip right>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn
-                                            icon
-                                            large
-                                            href="https://codepen.io/johnjleider/pen/pMvGQO"
-                                            target="_blank"
-                                            v-on="on"
-                                        >
-                                            <v-icon>mdi-codepen</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>Codepen</span>
-                                </v-tooltip>
+                                <v-toolbar-title>Registration form</v-toolbar-title>
                             </v-toolbar>
                             <v-card-text>
-                                <v-form>
+                                <v-form
+                                    lazy-validation
+                                    v-model="valid"
+                                    ref="form"
+                                >
                                     <v-text-field
-                                        label="Login"
-                                        name="login"
+                                        label="Email"
+                                        name="email"
                                         prepend-icon="mdi-person"
-                                        type="text"
+                                        type="email"
+                                        v-model="email"
+                                        :rules="emailRules"
                                     />
 
                                     <v-text-field
-                                        id="password"
                                         label="Password"
                                         name="password"
                                         prepend-icon="mdi-lock"
                                         type="password"
+                                        v-model="password"
+                                        :counter="6"
+                                        :rules="passwordRules"
+                                    />
+
+                                    <v-text-field
+                                        label="Confirm password"
+                                        name="confirm-password"
+                                        prepend-icon="mdi-lock"
+                                        type="password"
+                                        v-model="confirmPassword"
+                                        :counter="6"
+                                        :rules="confirmPasswordRules"
                                     />
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer/>
-                                <v-btn color="primary">Login</v-btn>
+                                <v-btn
+                                    color="primary"
+                                    @click="onSubmit"
+                                    :disabled="!valid"
+                                >Create account</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -83,8 +76,39 @@
 
 <script>
   export default {
-    props: {
-      source: String,
+    data () {
+      return {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        valid: false,
+        emailRules: [
+          v => !!v || 'E-mail is required',
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
+        passwordRules: [
+          v => !!v || 'Нужно ввести пароль',
+          v => v.length >= 6 || 'Пароль должен состоять мин из 6 символов',
+        ],
+        confirmPasswordRules: [
+          v => !!v || 'Нужно ввести пароль',
+          v => v === this.password || 'Пароли не совпадают',
+        ]
+      }
     },
+
+    methods: {
+      onSubmit () {
+        console.log('onSubmit')
+        if (this.$refs.form.validate()) {
+          const user = {
+            email: this.email,
+            password: this.password,
+          }
+
+          console.log(user)
+        }
+      }
+    }
   }
 </script>
