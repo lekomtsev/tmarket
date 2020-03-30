@@ -27,7 +27,9 @@
         class="hidden-md-and-up"
         @click="toggleSidebar = !toggleSidebar"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title>Blogger</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" class="logo">Blogger</router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
@@ -69,3 +71,9 @@ export default {
   }),
 };
 </script>
+
+<style lang="scss" scoped>
+  .logo {
+    cursor: pointer;
+  }
+</style>
