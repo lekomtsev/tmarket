@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-flex xs12 sm6 offset-sm3>
-            <h1 class="mb-5">Создать новое объявление</h1>
+            <h1 class="text--secondary mb-5">Создать новое объявление</h1>
             <v-form
                 validation
                 ref="form"
