@@ -23,6 +23,7 @@ export default {
       try {
         const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
         console.log(new User(user.uid), 'new User(user.uid)')
+        console.log(user.uid, ' <--- user uid')
         console.log(user, ' <--- user')
         commit('setUser', new User(user.uid))
         commit('setLoading', false)
@@ -42,6 +43,23 @@ export default {
       //   commit('setLoading', false)
       //   commit('setError', error.message)
       // })
+    },
+    async loginUser ({ commit }, { email, password }) {
+      commit('clearError')
+      commit('setLoading', true)
+
+      try {
+        const user = await firebase.auth().signInWithEmailAndPassword(email, password)
+        console.log(new User(user.uid), 'new User(user.uid)')
+        console.log(user.uid, ' <--- user uid')
+        console.log(user, ' <--- user')
+        commit('setUser', new User(user.uid))
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setLoading', false)
+        commit('setError', error.message)
+        throw error
+      }
     }
   },
   getters: {
