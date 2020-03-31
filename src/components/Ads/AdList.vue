@@ -6,7 +6,7 @@
 
                 <v-card
                     class="mb-3 overflow-hidden"
-                    v-for="(ad, i) in ads"
+                    v-for="(ad, i) in myAds"
                     :key="i"
                 >
                     <div class="d-flex">
@@ -38,24 +38,9 @@
 
 <script>
   export default {
-    data () {
-      return {
-        ads: [
-          {
-            title: '1 Title',
-            description: 'description description',
-            promo: false,
-            imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-            id: ''
-          },
-          {
-            title: '2 Title',
-            description: 'description description description',
-            promo: false,
-            imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-            id: ''
-          }
-        ]
+    computed: {
+      myAds () {
+        return this.$store.getters.myAds
       }
     }
   }
