@@ -117,7 +117,7 @@
             .then(() => {
               this.$router.push('/')
             })
-            .catch(e => console.log(e))
+            .catch() // e => console.log(e)
 
           console.log(user)
         }
