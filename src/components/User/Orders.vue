@@ -6,7 +6,6 @@
 
                 <v-list subheader two-line flat>
                     <v-list-item
-                        avatar
                         v-for="(order, i) in orders"
                         :key="i"
                     >

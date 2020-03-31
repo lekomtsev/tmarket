@@ -6,6 +6,7 @@ import NewAd from '../components/Ads/NewAd'
 import Login from '../components/Auth/Login'
 import Registration from '../components/Auth/Registration'
 import Orders from '../components/User/Orders'
+import NotFoundComponent from '../components/NotFoundComponent'
 
 export default new VueRouter ({
   routes: [
@@ -45,6 +46,11 @@ export default new VueRouter ({
       name: 'orders',
       component: Orders
     },
+    {
+      path: '*',
+      name: '404',
+      component: NotFoundComponent
+    }
   ],
   mode: 'history'
 })

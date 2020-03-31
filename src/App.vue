@@ -8,7 +8,7 @@
       <v-subheader>REPORTS</v-subheader>
       <v-list-item-group>
         <v-list-item
-          v-for="(sideBarLink, index) in sideBarLinks"
+          v-for="(sideBarLink, index) in links"
           :key="index"
           :to="sideBarLink.url"
         >
@@ -17,6 +17,17 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="sideBarLink.title"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="isUserLoggedIn"
+          @click="onLogout"
+        >
+          <v-list-item-icon>
+            <v-icon v-text="'mdi-exit-to-app'"></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="'Выход'"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -34,12 +45,20 @@
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
           text
-          v-for="(sideBarLink, index) in sideBarLinks"
+          v-for="(navBarLink, index) in links"
           :key="index"
-          :to="sideBarLink.url"
+          :to="navBarLink.url"
         >
-          <v-icon left>{{ sideBarLink.icon }}</v-icon>
-          {{ sideBarLink.title }}
+          <v-icon left>{{ navBarLink.icon }}</v-icon>
+          {{ navBarLink.title }}
+        </v-btn>
+        <v-btn
+          text
+          @click="onLogout"
+          v-if="isUserLoggedIn"
+        >
+          <v-icon dark left>mdi-exit-to-app</v-icon>
+          Выход
         </v-btn>
 
       </v-toolbar-items>
@@ -73,25 +92,39 @@ export default {
   components: {},
 
   data: () => ({
-    toggleSidebar: false,
-    sideBarLinks: [
-      { title: 'Login', icon: 'mdi-lock', url: '/login' },
-      { title: 'Registration', icon: 'mdi-face', url: '/registration' },
-      { title: 'Orders', icon: 'mdi-bookmark_order', url: '/orders' },
-      { title: 'New ad', icon: 'mdi-note_add', url: '/new' },
-      { title: 'My ads', icon: 'mdi-list', url: '/list' }
-    ]
+    toggleSidebar: false
   }),
 
   computed: {
     error () {
       return this.$store.getters.error
+    },
+    isUserLoggedIn () {
+      return this.$store.getters.isUserLoggedIn
+    },
+    links () {
+      if (this.isUserLoggedIn) {
+        return [
+          { title: 'Orders', icon: 'mdi-bookmark', url: '/orders' },
+          { title: 'New ad', icon: 'mdi-note-text', url: '/new' },
+          { title: 'My ads', icon: 'mdi-view-list', url: '/list' }
+        ]
+      }
+
+      return [
+        { title: 'Login', icon: 'mdi-lock', url: '/login' },
+        { title: 'Registration', icon: 'mdi-face', url: '/registration' },
+      ]
     }
   },
 
   methods: {
     closeError () {
       this.$store.dispatch('clearError')
+    },
+    onLogout () {
+      this.$store.dispatch('logoutUser')
+      this.$store.push('/')
     }
   }
 };
