@@ -6,14 +6,14 @@ export default {
         description: 'description description',
         promo: true,
         imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-        id: ''
+        id: '123'
       },
       {
         title: '2 Title',
         description: 'description description description',
         promo: false,
         imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-        id: ''
+        id: '1234'
       },
       {
         title: '1 Title',
@@ -31,8 +31,17 @@ export default {
       }
     ]
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    createAd (state, payload) {
+      state.ads.push(payload)
+    }
+  },
+  actions: {
+    createAd ({ commit }, payload) {
+      payload.id = '2'
+      commit('createAd', payload)
+    }
+  },
   getters: {
     ads (state) {
       return state.ads
@@ -44,6 +53,11 @@ export default {
     },
     myAds (state) {
       return state.ads
+    },
+    adById (state) {
+      return adId => {
+        return state.ads.find(ad => ad.id === adId)
+      }
     }
   }
 }

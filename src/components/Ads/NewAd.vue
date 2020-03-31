@@ -74,9 +74,11 @@
           const ad = {
             title: this.title,
             description: this.description,
-            promo: this.promo
+            promo: this.promo,
+            imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
           }
 
+          this.$store.dispatch('createAd', ad)
           console.log(ad)
         }
       }
