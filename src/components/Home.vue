@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!loading">
         <v-container fluid pt-0>
             <v-layout row>
                 <v-flex xs12>
@@ -34,12 +34,12 @@
                         <v-img
                             class="white--text align-end"
                             height="200px"
-                            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                            :src="ad.imageSrc"
                         >
-                            <v-card-title>Top 10 Australian beaches</v-card-title>
+                            <v-card-title>{{ ad.title }}</v-card-title>
                         </v-img>
 
-                        <v-card-subtitle class="pb-0">Number 10</v-card-subtitle>
+                        <v-card-subtitle class="pb-0">{{ ad.description }}</v-card-subtitle>
 
                         <v-card-text class="text--primary">
                             <div>Whitehaven Beach</div>
@@ -57,6 +57,18 @@
             </v-row>
         </v-container>
     </div>
+    <div v-else>
+        <v-container>
+            <div style="height: 80vh" class="d-flex justify-center align-center">
+                <v-progress-circular
+                    indeterminate
+                    :size="90"
+                    :width="3"
+                    color="purple"
+                ></v-progress-circular>
+            </div>
+        </v-container>
+    </div>
 </template>
 
 <script>
@@ -67,6 +79,9 @@
       },
       ads () {
         return this.$store.getters.ads
+      },
+      loading () {
+        return this.$store.getters.loading
       }
     }
   }

@@ -13,40 +13,14 @@ class Ad {
 
 export default {
   state: {
-    ads: [
-      {
-        title: '1 Title',
-        description: 'description description',
-        promo: true,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-        id: '123'
-      },
-      {
-        title: '2 Title',
-        description: 'description description description',
-        promo: false,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-        id: '1234'
-      },
-      {
-        title: '1 Title',
-        description: 'description description',
-        promo: false,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-        id: ''
-      },
-      {
-        title: '2 Title',
-        description: 'description description description',
-        promo: true,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-        id: ''
-      }
-    ]
+    ads: []
   },
   mutations: {
     createAd (state, payload) {
       state.ads.push(payload)
+    },
+    loadAds (state, payload) {
+      state.ads = payload
     }
   },
   actions: {
@@ -70,6 +44,35 @@ export default {
           ...newAd,
           id: ad.key
         })
+      } catch (error) {
+        commit('setError', error.message)
+        commit('setLoading', false)
+        throw error
+      }
+    },
+
+    async fetchAds ({ commit }) {
+      commit('clearError')
+      commit('setLoading', true)
+
+      const resultAds = []
+
+      try {
+        const firebaseData = await firebase.database().ref('ads').once('value')
+        const ads = firebaseData.val()
+        console.log(ads)
+
+        Object.keys(ads).forEach((key) => {
+          const ad = ads[key]
+          resultAds.push(
+            new Ad(ad.title, ad.description, ad.ownerId, ad.imageSrc, ad.promo, key)
+          )
+        })
+
+        console.log(resultAds)
+
+        commit('loadAds', resultAds)
+        commit('setLoading', false)
       } catch (error) {
         commit('setError', error.message)
         commit('setLoading', false)
