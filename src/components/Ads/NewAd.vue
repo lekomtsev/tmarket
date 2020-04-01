@@ -48,7 +48,8 @@
                         class="success"
                         width="100%"
                         @click="createAd"
-                        :disabled="!valid"
+                        :loading="loading"
+                        :disabled="!valid || loading"
                     >Отправить</v-btn>
                 </v-col>
             </v-row>
@@ -67,6 +68,12 @@
       }
     },
 
+    computed: {
+      loading() {
+        return this.$store.getters.loading
+      }
+    },
+
     methods: {
       createAd () {
         if (this.$refs.form.validate()) {
@@ -79,7 +86,10 @@
           }
 
           this.$store.dispatch('createAd', ad)
-          console.log(ad)
+            .then(() => {
+              this.$router.push('/list')
+            })
+            .catch(() => {})
         }
       }
     }
