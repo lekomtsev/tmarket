@@ -32,17 +32,6 @@ export default {
         commit('setError', error.message)
         throw error
       }
-
-      // .then(user => {
-      //   // uid
-      //   console.log(new User(user.uid), 'new User(user.uid)')
-      //   commit('setUser', new User(user.uid))
-      //   commit('setLoading', false)
-      // })
-      // .catch(error => {
-      //   commit('setLoading', false)
-      //   commit('setError', error.message)
-      // })
     },
     async loginUser ({ commit }, { email, password }) {
       commit('clearError')

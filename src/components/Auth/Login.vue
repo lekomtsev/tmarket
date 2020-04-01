@@ -107,6 +107,12 @@
           console.log(user)
         }
       }
+    },
+
+    created () {
+      if (this.$route.query['loginError']) {
+        this.$store.dispatch('setError', 'Нужно зарегистрироваться, чтобы войти на страницу')
+      }
     }
   }
 </script>
