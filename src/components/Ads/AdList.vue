@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-layout>
+        <v-layout v-if="!loading && myAds.length !== 0">
             <v-flex xs12 sm6 offset-sm3>
                 <h1 class="text--secondary mb-5">AdList</h1>
 
@@ -33,6 +33,23 @@
                 </v-card>
             </v-flex>
         </v-layout>
+        <v-layout v-else-if="!loading && myAds.length === 0">
+            <div style="height: 80vh" class="d-flex justify-center align-center">
+                <p>У вас нет объявлений, для добавления нужно перейти во вкладку Добавить</p>
+            </div>
+        </v-layout>
+        <div v-else>
+            <v-container>
+                <div style="height: 80vh" class="d-flex justify-center align-center">
+                    <v-progress-circular
+                        indeterminate
+                        :size="90"
+                        :width="3"
+                        color="purple"
+                    ></v-progress-circular>
+                </div>
+            </v-container>
+        </div>
     </v-container>
 </template>
 
@@ -41,6 +58,9 @@
     computed: {
       myAds () {
         return this.$store.getters.myAds
+      },
+      loading () {
+        return this.$store.getters.loading
       }
     }
   }

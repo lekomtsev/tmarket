@@ -15,7 +15,10 @@
                     <v-card-subtitle v-text="ad.description"></v-card-subtitle>
 
                     <v-card-actions class="justify-end">
-                        <app-edit-ad-modal :ad="ad"></app-edit-ad-modal>
+                        <app-edit-ad-modal
+                            :ad="ad"
+                            v-if="isOwner"
+                        ></app-edit-ad-modal>
                         <v-btn
                             class="success ml-3"
                         >Купить</v-btn>
@@ -53,9 +56,11 @@ export default {
       const id = this.id
       return this.$store.getters.adById(id)
     },
-
     loading () {
       return this.$store.getters.loading
+    },
+    isOwner () {
+      return this.ad.ownerId === this.$store.getters.user.id
     }
   }
 }

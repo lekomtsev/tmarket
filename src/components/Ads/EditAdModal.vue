@@ -76,8 +76,8 @@ export default {
       if (this.editedTitle !== '' && this.editedDescription !== '') {
 
         this.$store.dispatch('updateAd', {
-          title: this.title,
-          description: this.description,
+          title: this.editedTitle,
+          description: this.editedDescription,
           id: this.ad.id
         })
 

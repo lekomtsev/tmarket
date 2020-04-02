@@ -28,7 +28,7 @@
                     sm="6"
                 >
                     <v-card
-                        class="mx-auto"
+                        class="mx-auto card d-flex flex-wrap"
                         max-width="400"
                     >
                         <v-img
@@ -36,18 +36,10 @@
                             height="200px"
                             :src="ad.imageSrc"
                         >
-                            <v-card-title>{{ ad.title }}</v-card-title>
                         </v-img>
-
-                        <v-card-subtitle class="pb-0">{{ ad.description }}</v-card-subtitle>
-
-                        <v-card-text class="text--primary">
-                            <div>Whitehaven Beach</div>
-
-                            <div>Whitsunday Island, Whitsunday Islands</div>
-                        </v-card-text>
-
-                        <v-card-actions>
+                        <v-card-title>{{ ad.title }}</v-card-title>
+                        <v-card-subtitle class="pb-0 text--primary">{{ ad.description }}</v-card-subtitle>
+                        <v-card-actions class="mt-auto">
                             <v-spacer></v-spacer>
                             <v-btn text :to="'/ad/' + ad.id" >Open</v-btn>
                             <v-btn class="primary" :to="'/ad/' + ad.id" >Купить</v-btn>
@@ -96,5 +88,10 @@
     padding: 15px;
     background: rgba(23, 23, 23, 0.5);
     border-radius: 5px 5px 0 0;
+}
+
+.card {
+    height: 376px;
+    overflow: hidden;
 }
 </style>
