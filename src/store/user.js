@@ -22,9 +22,7 @@ export default {
 
       try {
         const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
-        console.log(new User(user.uid), 'new User(user.uid)')
-        console.log(user.uid, ' <--- user uid')
-        console.log(user, ' <--- user')
+
         commit('setUser', new User(user.uid))
         commit('setLoading', false)
       } catch (error) {
@@ -39,9 +37,7 @@ export default {
 
       try {
         const user = await firebase.auth().signInWithEmailAndPassword(email, password)
-        console.log(new User(user.uid), 'new User(user.uid)')
-        console.log(user.uid, ' <--- user uid')
-        console.log(user, ' <--- user')
+
         commit('setUser', new User(user.uid))
         commit('setLoading', false)
       } catch (error) {

@@ -27,22 +27,38 @@ export default {
     async createAd ({ commit, getters }, payload) {
       commit('clearError')
       commit('setLoading', true)
+
+      console.log(payload, 'payload from createAd - ads.js')
+      const image = payload.image
       
       try {
         const newAd = new Ad(
           payload.title,
           payload.description,
           getters.user.id,
-          payload.imageSrc,
+          '',
           payload.promo
         )
 
         const ad = await firebase.database().ref('ads').push(newAd)
+        const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+
+        const fileData = await firebase.storage().ref(`ads/${ad.key}.${imageExt}`).put(image)
+        console.log(fileData)
+        const imageSrc = await firebase.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+        // const imageSrc = fileData.ref.getDownloadURL()
+        // const imageSrc = fileData.ref.getDownloadURL()
+        console.log(imageSrc, 'imageSrc - imageSrc')
+
+        await firebase.database().ref('ads').child(ad.key).update({
+          imageSrc: imageSrc
+        })
 
         commit('setLoading', false)
         commit('createAd', {
           ...newAd,
-          id: ad.key
+          id: ad.key,
+          imageSrc: imageSrc
         })
       } catch (error) {
         commit('setError', error.message)
@@ -60,7 +76,6 @@ export default {
       try {
         const firebaseData = await firebase.database().ref('ads').once('value')
         const ads = firebaseData.val()
-        console.log(ads)
 
         Object.keys(ads).forEach((key) => {
           const ad = ads[key]
@@ -68,8 +83,6 @@ export default {
             new Ad(ad.title, ad.description, ad.ownerId, ad.imageSrc, ad.promo, key)
           )
         })
-
-        console.log(resultAds)
 
         commit('loadAds', resultAds)
         commit('setLoading', false)

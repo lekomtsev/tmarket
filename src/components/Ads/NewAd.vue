@@ -27,13 +27,27 @@
             </v-form>
             <v-row>
                 <v-col>
-                    <v-btn class="warning">
-                        Upload
+                    <v-btn
+                        class="warning"
+                        @click="triggerUpload"
+                    >
+                        Загрузить
                         <v-icon right dark>mdi-cloud-upload</v-icon>
                     </v-btn>
+                    <input
+                        type="file"
+                        ref="fileInput"
+                        class="d-none"
+                        accept="image/*"
+                        @change="onFileChange"
+                    >
                 </v-col>
                 <v-col>
-                    <img src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" height="100px" alt="alt">
+                    <img
+                         v-if="imageSrc"
+                         :src="imageSrc"
+                         height="100px"
+                         alt="alt">
                 </v-col>
                 <v-col md="12" sm="12">
                     <v-switch
@@ -49,7 +63,7 @@
                         width="100%"
                         @click="createAd"
                         :loading="loading"
-                        :disabled="!valid || loading"
+                        :disabled="!valid || !image || loading"
                     >Отправить</v-btn>
                 </v-col>
             </v-row>
@@ -64,7 +78,9 @@
         title: '',
         description: '',
         promo: false,
-        valid: false
+        valid: false,
+        image: null,
+        imageSrc: ''
       }
     },
 
@@ -76,13 +92,13 @@
 
     methods: {
       createAd () {
-        if (this.$refs.form.validate()) {
+        if (this.$refs.form.validate() && this.image) {
           // logic
           const ad = {
             title: this.title,
             description: this.description,
             promo: this.promo,
-            imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
+            image: this.image
           }
 
           this.$store.dispatch('createAd', ad)
@@ -91,6 +107,21 @@
             })
             .catch(() => {})
         }
+      },
+
+      triggerUpload () {
+        this.$refs.fileInput.click()
+      },
+
+      onFileChange (evt) {
+        console.log(evt)
+        const file = evt.target.files[0]
+        const reader = new FileReader()
+        reader.onload = () => {
+            this.imageSrc = reader.result
+        }
+        reader.readAsDataURL(file)
+        this.image = file
       }
     }
   }
