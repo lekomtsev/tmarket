@@ -42,7 +42,8 @@
                         <v-card-actions class="mt-auto">
                             <v-spacer></v-spacer>
                             <v-btn text :to="'/ad/' + ad.id" >Open</v-btn>
-                            <v-btn class="primary" :to="'/ad/' + ad.id" >Купить</v-btn>
+                            <app-buy-modal :ad="ad"></app-buy-modal>
+                            <!--<v-btn class="primary" :to="'/ad/' + ad.id" >Купить</v-btn>-->
                         </v-card-actions>
                     </v-card>
                 </v-col>

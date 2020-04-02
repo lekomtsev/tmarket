@@ -5,9 +5,11 @@ import vuetify from './plugins/vuetify'
 import VueRouter from 'vue-router'
 import router from './router'
 import * as firebase from 'firebase'
+import BuyModalComponent from './components/Shared/BuyModal';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
+Vue.component('app-buy-modal', BuyModalComponent)
 
 new Vue({
   vuetify,
