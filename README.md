@@ -26,4 +26,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Description
 
 Мини-интернет магазин в качестве обучения Vue
+Пример: [http://tmarket.surge.sh/](http://tmarket.surge.sh/) (138.197.235.123)
 
