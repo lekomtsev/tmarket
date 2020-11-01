@@ -1,4 +1,4 @@
-# blogger
+# tmarket
 
 ## Project setup
 ```
@@ -22,3 +22,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Description
+
+Мини-интернет магазин в качестве обучения Vue
+
